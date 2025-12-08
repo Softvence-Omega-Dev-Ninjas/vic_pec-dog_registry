@@ -1,7 +1,7 @@
 services:
     app:
-        image: softvence/${PACKAGE_NAME}:latest
-        container_name: ${PACKAGE_NAME}
+        image: softvence/vic_pec-dog_registry:latest
+        container_name: vic_pec-dog_registry
         profiles:
             - prod
         platform: linux/amd64
@@ -19,7 +19,7 @@ services:
 
     db:
         image: postgres:16-alpine
-        container_name: pg-db
+        container_name: vic_pec-dog_registry_pg
         profiles:
             - dev
             - prod
@@ -28,10 +28,8 @@ services:
             - POSTGRES_PASSWORD=${PG_PASSWORD}
             - POSTGRES_DB=${PG_DATABASE}
             - PGDATA=/var/lib/postgresql/data/pgdata
-        ports:
-            - "${PG_PORT}:${PG_PORT}"
         volumes:
-            - postgres_data:/var/lib/postgresql/data
+            - vic_pec-dog_registry_pg-data:/var/lib/postgresql/data
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U ${PG_USERNAME} -d ${PG_DATABASE}"]
             interval: 10s
@@ -41,8 +39,8 @@ services:
         restart: unless-stopped
 
 volumes:
-    postgres_data:
+    vic_pec-dog_registry_pg-data:
         driver: local
 
 networks:
-    default:
+    vic_pec-dog_registry:
