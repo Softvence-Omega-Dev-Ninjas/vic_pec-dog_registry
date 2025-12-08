@@ -8,6 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/Post.js'
+export type * from './models/ActivityLog.js'
+export type * from './models/AdminSetting.js'
+export type * from './models/Certificate.js'
+export type * from './models/Dog.js'
+export type * from './models/DogBreedAnalysis.js'
+export type * from './models/DogHealth.js'
+export type * from './models/DogMedia.js'
+export type * from './models/FileInstance.js'
+export type * from './models/Owner.js'
+export type * from './models/RegistrationRequest.js'
+export type * from './models/Report.js'
 export type * from './models/User.js'
 export type * from './commonInputTypes.js'

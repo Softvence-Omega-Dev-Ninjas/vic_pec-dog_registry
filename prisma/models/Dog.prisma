@@ -1,0 +1,26 @@
+model Dog {
+    id          String   @id @default(uuid())
+    ownerId     String
+    pcrId       String   @unique
+    name        String
+    breed       String
+    color       String
+    sex         String
+    microchip   String   @unique
+    dateOfBirth DateTime
+    weight      Float
+    location    String
+    tier        String
+    status      String
+
+    owner                Owner                 @relation(fields: [ownerId], references: [id])
+    media                DogMedia[]
+    health               DogHealth[]
+    breedAnalysis        DogBreedAnalysis[]
+    registrationRequests RegistrationRequest[]
+    certificates         Certificate[]
+    reports              Report[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}

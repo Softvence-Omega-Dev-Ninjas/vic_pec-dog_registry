@@ -1,0 +1,8 @@
+model DogHealth {
+    id           String   @id @default(uuid())
+    dogId        String
+    healthStatus String
+    createdAt    DateTime @default(now())
+
+    dog Dog @relation(fields: [dogId], references: [id])
+}

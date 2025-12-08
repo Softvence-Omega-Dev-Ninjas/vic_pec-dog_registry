@@ -1,8 +1,20 @@
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+    id             String        @id @default(uuid())
+    name           String
+    email          String        @unique
+    password       String
+    phone          String
+    address        String?
+    userType       String
+    status         String
+    lastLogin      DateTime?
+    profileImageId String?
+    profileImage   FileInstance? @relation(fields: [profileImageId], references: [id])
 
-  @@map("user")
+    owner        Owner?
+    activityLogs ActivityLog[]
+    adminSetting AdminSetting?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }

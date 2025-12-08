@@ -1,0 +1,11 @@
+model RegistrationRequest {
+    id          String   @id @default(uuid())
+    dogId       String
+    ownerId     String
+    requestType String
+    status      String
+    submittedAt DateTime @default(now())
+
+    dog   Dog   @relation(fields: [dogId], references: [id])
+    owner Owner @relation(fields: [ownerId], references: [id])
+}

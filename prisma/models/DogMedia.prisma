@@ -1,0 +1,9 @@
+model DogMedia {
+    id        String   @id @default(uuid())
+    dogId     String
+    fileUrlId String
+    createdAt DateTime @default(now())
+
+    dog     Dog          @relation(fields: [dogId], references: [id])
+    fileUrl FileInstance @relation(fields: [fileUrlId], references: [id])
+}

@@ -29,8 +29,8 @@ export * from "./enums.js"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Posts
- * const posts = await prisma.post.findMany()
+ * // Fetch zero or more ActivityLogs
+ * const activityLogs = await prisma.activityLog.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -42,10 +42,60 @@ export { Prisma }
 
 
 /**
- * Model Post
+ * Model ActivityLog
  * 
  */
-export type Post = Prisma.PostModel
+export type ActivityLog = Prisma.ActivityLogModel
+/**
+ * Model AdminSetting
+ * 
+ */
+export type AdminSetting = Prisma.AdminSettingModel
+/**
+ * Model Certificate
+ * 
+ */
+export type Certificate = Prisma.CertificateModel
+/**
+ * Model Dog
+ * 
+ */
+export type Dog = Prisma.DogModel
+/**
+ * Model DogBreedAnalysis
+ * 
+ */
+export type DogBreedAnalysis = Prisma.DogBreedAnalysisModel
+/**
+ * Model DogHealth
+ * 
+ */
+export type DogHealth = Prisma.DogHealthModel
+/**
+ * Model DogMedia
+ * 
+ */
+export type DogMedia = Prisma.DogMediaModel
+/**
+ * Model FileInstance
+ * 
+ */
+export type FileInstance = Prisma.FileInstanceModel
+/**
+ * Model Owner
+ * 
+ */
+export type Owner = Prisma.OwnerModel
+/**
+ * Model RegistrationRequest
+ * 
+ */
+export type RegistrationRequest = Prisma.RegistrationRequestModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel
 /**
  * Model User
  * 

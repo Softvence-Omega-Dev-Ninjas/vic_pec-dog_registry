@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/home/sabbir/own/template/prisma/generated",
+      "value": "C:\\Users\\MIRZA_SAIKAT_AHMMED\\Desktop\\SAIKAT\\project\\vic_pec-dog_registry\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -32,12 +32,12 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/sabbir/own/template/prisma/models/schema.prisma",
+    "sourceFilePath": "C:\\Users\\MIRZA_SAIKAT_AHMMED\\Desktop\\SAIKAT\\project\\vic_pec-dog_registry\\prisma\\models\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../models",
@@ -56,8 +56,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// ENUMS_START\n\nenum AuthProvider {\n  GOOGLE\n  APPLE\n  EMAIL\n  FACEBOOK\n}\n\nenum Role {\n  USER\n  MODERATOR\n  ADMIN\n  SUPER_ADMIN\n}\n\n// ENUMS_END\n\nmodel Post {\n  id        Int     @id @default(autoincrement())\n  title     String\n  content   String?\n  published Boolean @default(false)\n  author    User    @relation(fields: [authorId], references: [id])\n  authorId  Int\n\n  @@index([id])\n  @@index([authorId])\n  @@map(\"post\")\n}\n\ngenerator client {\n  provider   = \"prisma-client\"\n  engineType = \"client\"\n  output     = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id    Int     @id @default(autoincrement())\n  email String  @unique\n  name  String?\n  posts Post[]\n\n  @@map(\"user\")\n}\n",
-  "inlineSchemaHash": "5eb6778500770257089829d0365d3423b535b0c405d7aa0ab8b575be64594153",
+  "inlineSchema": "model ActivityLog {\n  id        String   @id @default(uuid())\n  userId    String\n  action    String\n  target    String?\n  details   String?\n  createdAt DateTime @default(now())\n\n  user User @relation(fields: [userId], references: [id])\n}\n\nmodel AdminSetting {\n  id                  String  @id @default(uuid())\n  adminId             String  @unique\n  emailNotify         Boolean @default(true)\n  newRegistrations    Boolean @default(true)\n  certificateRequests Boolean @default(true)\n  reportAlerts        Boolean @default(true)\n\n  admin User @relation(fields: [adminId], references: [id])\n}\n\nmodel Certificate {\n  id              String    @id @default(uuid())\n  dogId           String\n  ownerId         String\n  certificateCode String    @unique\n  requestDate     DateTime\n  issueDate       DateTime?\n  status          String\n  pdfUrl          String\n\n  dog   Dog   @relation(fields: [dogId], references: [id])\n  owner Owner @relation(fields: [ownerId], references: [id])\n}\n\nmodel Dog {\n  id          String   @id @default(uuid())\n  ownerId     String\n  pcrId       String   @unique\n  name        String\n  breed       String\n  color       String\n  sex         String\n  microchip   String   @unique\n  dateOfBirth DateTime\n  weight      Float\n  location    String\n  tier        String\n  status      String\n\n  owner                Owner                 @relation(fields: [ownerId], references: [id])\n  media                DogMedia[]\n  health               DogHealth[]\n  breedAnalysis        DogBreedAnalysis[]\n  registrationRequests RegistrationRequest[]\n  certificates         Certificate[]\n  reports              Report[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel DogBreedAnalysis {\n  id         String   @id @default(uuid())\n  dogId      String\n  breed      String\n  percentage Float\n  createdAt  DateTime @default(now())\n\n  dog Dog @relation(fields: [dogId], references: [id])\n}\n\nmodel DogHealth {\n  id           String   @id @default(uuid())\n  dogId        String\n  healthStatus String\n  createdAt    DateTime @default(now())\n\n  dog Dog @relation(fields: [dogId], references: [id])\n}\n\nmodel DogMedia {\n  id        String   @id @default(uuid())\n  dogId     String\n  fileUrlId String\n  createdAt DateTime @default(now())\n\n  dog     Dog          @relation(fields: [dogId], references: [id])\n  fileUrl FileInstance @relation(fields: [fileUrlId], references: [id])\n}\n\nmodel FileInstance {\n  id               String   @id @default(uuid())\n  filename         String\n  originalFilename String\n  path             String\n  url              String\n  fileType         String\n  mimeType         String\n  size             Int\n  createdAt        DateTime @default(now())\n  updatedAt        DateTime @updatedAt\n\n  usersProfileImage User[]\n  ownerCoverImages  Owner[]\n  dogMediaFiles     DogMedia[]\n}\n\nmodel Owner {\n  id            String  @id @default(uuid())\n  userId        String  @unique\n  ownerCode     String  @unique\n  about         String?\n  isAmbassador  Boolean @default(false)\n  emailNotify   Boolean @default(true)\n  showOwnerInfo Boolean @default(true)\n  coverImageId  String?\n\n  user                 User                  @relation(fields: [userId], references: [id])\n  coverImage           FileInstance?         @relation(fields: [coverImageId], references: [id])\n  dogs                 Dog[]\n  registrationRequests RegistrationRequest[]\n  certificates         Certificate[]\n  reports              Report[]\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel RegistrationRequest {\n  id          String   @id @default(uuid())\n  dogId       String\n  ownerId     String\n  requestType String\n  status      String\n  submittedAt DateTime @default(now())\n\n  dog   Dog   @relation(fields: [dogId], references: [id])\n  owner Owner @relation(fields: [ownerId], references: [id])\n}\n\nmodel Report {\n  id            String   @id @default(uuid())\n  dogId         String\n  ownerId       String\n  reporterName  String\n  reporterEmail String\n  priority      String\n  reason        String\n  description   String\n  status        String\n  createdAt     DateTime @default(now())\n\n  dog   Dog   @relation(fields: [dogId], references: [id])\n  owner Owner @relation(fields: [ownerId], references: [id])\n}\n\nmodel User {\n  id             String        @id @default(uuid())\n  name           String\n  email          String        @unique\n  password       String\n  phone          String\n  address        String?\n  userType       String\n  status         String\n  lastLogin      DateTime?\n  profileImageId String?\n  profileImage   FileInstance? @relation(fields: [profileImageId], references: [id])\n\n  owner        Owner?\n  activityLogs ActivityLog[]\n  adminSetting AdminSetting?\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\ngenerator client {\n  provider   = \"prisma-client\"\n  engineType = \"client\"\n  output     = \"../generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n",
+  "inlineSchemaHash": "1502d11a28dfd0656e12e75317072de85db34e4c3c2ba274cfbd377b53ddd1ce",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
@@ -67,7 +67,7 @@ const config: runtime.GetPrismaClientConfig = {
   "dirname": ""
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Post\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"published\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PostToUser\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"Int\"}],\"dbName\":\"post\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"posts\",\"kind\":\"object\",\"type\":\"Post\",\"relationName\":\"PostToUser\"}],\"dbName\":\"user\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ActivityLog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"action\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"target\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"details\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ActivityLogToUser\"}],\"dbName\":null},\"AdminSetting\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"adminId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailNotify\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"newRegistrations\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"certificateRequests\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"reportAlerts\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminSettingToUser\"}],\"dbName\":null},\"Certificate\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"certificateCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"issueDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pdfUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"CertificateToDog\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"CertificateToOwner\"}],\"dbName\":null},\"Dog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pcrId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"breed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"color\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"sex\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"microchip\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"location\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"tier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"DogToOwner\"},{\"name\":\"media\",\"kind\":\"object\",\"type\":\"DogMedia\",\"relationName\":\"DogToDogMedia\"},{\"name\":\"health\",\"kind\":\"object\",\"type\":\"DogHealth\",\"relationName\":\"DogToDogHealth\"},{\"name\":\"breedAnalysis\",\"kind\":\"object\",\"type\":\"DogBreedAnalysis\",\"relationName\":\"DogToDogBreedAnalysis\"},{\"name\":\"registrationRequests\",\"kind\":\"object\",\"type\":\"RegistrationRequest\",\"relationName\":\"DogToRegistrationRequest\"},{\"name\":\"certificates\",\"kind\":\"object\",\"type\":\"Certificate\",\"relationName\":\"CertificateToDog\"},{\"name\":\"reports\",\"kind\":\"object\",\"type\":\"Report\",\"relationName\":\"DogToReport\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"DogBreedAnalysis\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"breed\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"percentage\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToDogBreedAnalysis\"}],\"dbName\":null},\"DogHealth\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"healthStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToDogHealth\"}],\"dbName\":null},\"DogMedia\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileUrlId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToDogMedia\"},{\"name\":\"fileUrl\",\"kind\":\"object\",\"type\":\"FileInstance\",\"relationName\":\"DogMediaToFileInstance\"}],\"dbName\":null},\"FileInstance\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"filename\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"originalFilename\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"path\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"fileType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"mimeType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"size\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"usersProfileImage\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"FileInstanceToUser\"},{\"name\":\"ownerCoverImages\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"FileInstanceToOwner\"},{\"name\":\"dogMediaFiles\",\"kind\":\"object\",\"type\":\"DogMedia\",\"relationName\":\"DogMediaToFileInstance\"}],\"dbName\":null},\"Owner\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"about\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isAmbassador\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"emailNotify\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"showOwnerInfo\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"coverImageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"OwnerToUser\"},{\"name\":\"coverImage\",\"kind\":\"object\",\"type\":\"FileInstance\",\"relationName\":\"FileInstanceToOwner\"},{\"name\":\"dogs\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToOwner\"},{\"name\":\"registrationRequests\",\"kind\":\"object\",\"type\":\"RegistrationRequest\",\"relationName\":\"OwnerToRegistrationRequest\"},{\"name\":\"certificates\",\"kind\":\"object\",\"type\":\"Certificate\",\"relationName\":\"CertificateToOwner\"},{\"name\":\"reports\",\"kind\":\"object\",\"type\":\"Report\",\"relationName\":\"OwnerToReport\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"RegistrationRequest\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"requestType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"submittedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToRegistrationRequest\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"OwnerToRegistrationRequest\"}],\"dbName\":null},\"Report\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"dogId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"ownerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reporterName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reporterEmail\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"priority\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"dog\",\"kind\":\"object\",\"type\":\"Dog\",\"relationName\":\"DogToReport\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"OwnerToReport\"}],\"dbName\":null},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"phone\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"lastLogin\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"profileImageId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profileImage\",\"kind\":\"object\",\"type\":\"FileInstance\",\"relationName\":\"FileInstanceToUser\"},{\"name\":\"owner\",\"kind\":\"object\",\"type\":\"Owner\",\"relationName\":\"OwnerToUser\"},{\"name\":\"activityLogs\",\"kind\":\"object\",\"type\":\"ActivityLog\",\"relationName\":\"ActivityLogToUser\"},{\"name\":\"adminSetting\",\"kind\":\"object\",\"type\":\"AdminSetting\",\"relationName\":\"AdminSettingToUser\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 config.engineWasm = undefined
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
@@ -99,8 +99,8 @@ export interface PrismaClientConstructor {
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Posts
-   * const posts = await prisma.post.findMany()
+   * // Fetch zero or more ActivityLogs
+   * const activityLogs = await prisma.activityLog.findMany()
    * ```
    * 
    * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -121,8 +121,8 @@ export interface PrismaClientConstructor {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Posts
- * const posts = await prisma.post.findMany()
+ * // Fetch zero or more ActivityLogs
+ * const activityLogs = await prisma.activityLog.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -217,14 +217,114 @@ export interface PrismaClient<
   }>>
 
       /**
-   * `prisma.post`: Exposes CRUD operations for the **Post** model.
+   * `prisma.activityLog`: Exposes CRUD operations for the **ActivityLog** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Posts
-    * const posts = await prisma.post.findMany()
+    * // Fetch zero or more ActivityLogs
+    * const activityLogs = await prisma.activityLog.findMany()
     * ```
     */
-  get post(): Prisma.PostDelegate<ExtArgs, { omit: OmitOpts }>;
+  get activityLog(): Prisma.ActivityLogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.adminSetting`: Exposes CRUD operations for the **AdminSetting** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AdminSettings
+    * const adminSettings = await prisma.adminSetting.findMany()
+    * ```
+    */
+  get adminSetting(): Prisma.AdminSettingDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.certificate`: Exposes CRUD operations for the **Certificate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Certificates
+    * const certificates = await prisma.certificate.findMany()
+    * ```
+    */
+  get certificate(): Prisma.CertificateDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.dog`: Exposes CRUD operations for the **Dog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Dogs
+    * const dogs = await prisma.dog.findMany()
+    * ```
+    */
+  get dog(): Prisma.DogDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.dogBreedAnalysis`: Exposes CRUD operations for the **DogBreedAnalysis** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DogBreedAnalyses
+    * const dogBreedAnalyses = await prisma.dogBreedAnalysis.findMany()
+    * ```
+    */
+  get dogBreedAnalysis(): Prisma.DogBreedAnalysisDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.dogHealth`: Exposes CRUD operations for the **DogHealth** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DogHealths
+    * const dogHealths = await prisma.dogHealth.findMany()
+    * ```
+    */
+  get dogHealth(): Prisma.DogHealthDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.dogMedia`: Exposes CRUD operations for the **DogMedia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DogMedias
+    * const dogMedias = await prisma.dogMedia.findMany()
+    * ```
+    */
+  get dogMedia(): Prisma.DogMediaDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.fileInstance`: Exposes CRUD operations for the **FileInstance** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FileInstances
+    * const fileInstances = await prisma.fileInstance.findMany()
+    * ```
+    */
+  get fileInstance(): Prisma.FileInstanceDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.owner`: Exposes CRUD operations for the **Owner** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Owners
+    * const owners = await prisma.owner.findMany()
+    * ```
+    */
+  get owner(): Prisma.OwnerDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.registrationRequest`: Exposes CRUD operations for the **RegistrationRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RegistrationRequests
+    * const registrationRequests = await prisma.registrationRequest.findMany()
+    * ```
+    */
+  get registrationRequest(): Prisma.RegistrationRequestDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.report`: Exposes CRUD operations for the **Report** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Reports
+    * const reports = await prisma.report.findMany()
+    * ```
+    */
+  get report(): Prisma.ReportDelegate<ExtArgs, { omit: OmitOpts }>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
