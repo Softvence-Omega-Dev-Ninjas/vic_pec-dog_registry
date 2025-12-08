@@ -7,4 +7,6 @@ model AdminSetting {
     reportAlerts        Boolean @default(true)
 
     admin User @relation(fields: [adminId], references: [id])
+
+    @@map("admin_settings")
 }

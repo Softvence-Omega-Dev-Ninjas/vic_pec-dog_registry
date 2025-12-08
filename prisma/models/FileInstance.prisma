@@ -13,4 +13,6 @@ model FileInstance {
     usersProfileImage User[]
     ownerCoverImages  Owner[]
     dogMediaFiles     DogMedia[]
+
+    @@map("file_instances")
 }

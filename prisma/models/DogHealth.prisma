@@ -5,4 +5,6 @@ model DogHealth {
     createdAt    DateTime @default(now())
 
     dog Dog @relation(fields: [dogId], references: [id])
+
+    @@map("dog_health")
 }

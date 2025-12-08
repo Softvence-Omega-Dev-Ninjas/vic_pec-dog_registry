@@ -6,4 +6,6 @@ model DogMedia {
 
     dog     Dog          @relation(fields: [dogId], references: [id])
     fileUrl FileInstance @relation(fields: [fileUrlId], references: [id])
+
+    @@map("dog_media")
 }

@@ -42,6 +42,12 @@ export class HealthController {
                         avatar: "https://avatars.githubusercontent.com/u/72593531?v=4",
                         url: "https://api.github.com/users/coderboysobuj",
                     },
+                    {
+                        name: "Mirza Saikat Ahmmed",
+                        role: "Backend Developer",
+                        avatar: "https://avatars.githubusercontent.com/u/30868301?v=4",
+                        url: "https://api.github.com/users/mirzasaikatahmmed",
+                    },
                 ],
             },
         });

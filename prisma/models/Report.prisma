@@ -12,4 +12,6 @@ model Report {
 
     dog   Dog   @relation(fields: [dogId], references: [id])
     owner Owner @relation(fields: [ownerId], references: [id])
+
+    @@map("reports")
 }

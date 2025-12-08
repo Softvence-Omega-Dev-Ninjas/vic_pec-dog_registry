@@ -17,4 +17,6 @@ model Owner {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@map("owners")
 }
