@@ -9,7 +9,7 @@ model Owner {
     coverImageId  String?
 
     user                 User                  @relation(fields: [userId], references: [id])
-    coverImage           FileInstance?         @relation(fields: [coverImageId], references: [id])
+    coverImage           FileInstance?         @relation("ownerCoverImages", fields: [coverImageId], references: [id])
     dogs                 Dog[]
     registrationRequests RegistrationRequest[]
     certificates         Certificate[]

@@ -9,7 +9,6 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     private readonly logger = new Logger(PrismaService.name);
     private readonly prisma: PrismaClient;
     private readonly connectionString: string;
-    owner: any;
 
     constructor(private readonly configService: ConfigService) {
         this.connectionString = this.configService.getOrThrow<string>("DATABASE_URL");
@@ -34,8 +33,56 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
         this.logger.log("[DESTROY] Prisma disconnected");
     }
 
-    /** Expose Prisma models (like prisma.user, prisma.post, etc.) */
+    /** Proxy all Prisma models and methods */
     get client() {
         return this.prisma;
+    }
+
+    get user() {
+        return this.prisma.user;
+    }
+
+    get owner() {
+        return this.prisma.owner;
+    }
+
+    get fileInstance() {
+        return this.prisma.fileInstance;
+    }
+
+    get dog() {
+        return this.prisma.dog;
+    }
+
+    get certificate() {
+        return this.prisma.certificate;
+    }
+
+    get registrationRequest() {
+        return this.prisma.registrationRequest;
+    }
+
+    get dogMedia() {
+        return this.prisma.dogMedia;
+    }
+
+    get dogHealth() {
+        return this.prisma.dogHealth;
+    }
+
+    get dogBreedAnalysis() {
+        return this.prisma.dogBreedAnalysis;
+    }
+
+    get report() {
+        return this.prisma.report;
+    }
+
+    get activityLog() {
+        return this.prisma.activityLog;
+    }
+
+    get adminSetting() {
+        return this.prisma.adminSetting;
     }
 }

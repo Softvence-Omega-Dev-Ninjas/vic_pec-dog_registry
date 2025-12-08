@@ -6,5 +6,5 @@ model DogHealth {
 
     dog Dog @relation(fields: [dogId], references: [id])
 
-    @@map("dog_health")
+    @@map("dog_healths")
 }

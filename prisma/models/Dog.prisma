@@ -10,8 +10,8 @@ model Dog {
     dateOfBirth DateTime
     weight      Float
     location    String
-    tier        String
-    status      String
+    tier        String?  @default("Standard")
+    status      String   @default("pending")
 
     owner                Owner                 @relation(fields: [ownerId], references: [id])
     media                DogMedia[]

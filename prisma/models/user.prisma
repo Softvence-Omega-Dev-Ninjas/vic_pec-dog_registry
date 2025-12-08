@@ -9,7 +9,7 @@ model User {
     status         String
     lastLogin      DateTime?
     profileImageId String?
-    profileImage   FileInstance? @relation(fields: [profileImageId], references: [id])
+    profileImage   FileInstance? @relation("usersProfileImage", fields: [profileImageId], references: [id])
 
     owner        Owner?
     activityLogs ActivityLog[]

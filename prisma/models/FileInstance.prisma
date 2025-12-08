@@ -10,8 +10,8 @@ model FileInstance {
     createdAt        DateTime @default(now())
     updatedAt        DateTime @updatedAt
 
-    usersProfileImage User[]
-    ownerCoverImages  Owner[]
+    usersProfileImage User[]     @relation("usersProfileImage")
+    ownerCoverImages  Owner[]    @relation("ownerCoverImages")
     dogMediaFiles     DogMedia[]
 
     @@map("file_instances")

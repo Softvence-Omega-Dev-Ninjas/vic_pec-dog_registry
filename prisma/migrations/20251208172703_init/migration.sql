@@ -1,5 +1,5 @@
 -- CreateTable
-CREATE TABLE "ActivityLog" (
+CREATE TABLE "activity_logs" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "action" TEXT NOT NULL,
@@ -7,11 +7,11 @@ CREATE TABLE "ActivityLog" (
     "details" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "ActivityLog_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "activity_logs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "AdminSetting" (
+CREATE TABLE "admin_settings" (
     "id" TEXT NOT NULL,
     "adminId" TEXT NOT NULL,
     "emailNotify" BOOLEAN NOT NULL DEFAULT true,
@@ -19,11 +19,11 @@ CREATE TABLE "AdminSetting" (
     "certificateRequests" BOOLEAN NOT NULL DEFAULT true,
     "reportAlerts" BOOLEAN NOT NULL DEFAULT true,
 
-    CONSTRAINT "AdminSetting_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "admin_settings_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Certificate" (
+CREATE TABLE "certificates" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
@@ -33,11 +33,11 @@ CREATE TABLE "Certificate" (
     "status" TEXT NOT NULL,
     "pdfUrl" TEXT NOT NULL,
 
-    CONSTRAINT "Certificate_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "certificates_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Dog" (
+CREATE TABLE "dogs" (
     "id" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
     "pcrId" TEXT NOT NULL,
@@ -54,42 +54,42 @@ CREATE TABLE "Dog" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Dog_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "dogs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "DogBreedAnalysis" (
+CREATE TABLE "dog_breed_analyses" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "breed" TEXT NOT NULL,
     "percentage" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DogBreedAnalysis_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "dog_breed_analyses_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "DogHealth" (
+CREATE TABLE "dog_healths" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "healthStatus" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DogHealth_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "dog_healths_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "DogMedia" (
+CREATE TABLE "dog_medias" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "fileUrlId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "DogMedia_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "dog_medias_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "FileInstance" (
+CREATE TABLE "file_instances" (
     "id" TEXT NOT NULL,
     "filename" TEXT NOT NULL,
     "originalFilename" TEXT NOT NULL,
@@ -101,11 +101,11 @@ CREATE TABLE "FileInstance" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "FileInstance_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "file_instances_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Owner" (
+CREATE TABLE "owners" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "ownerCode" TEXT NOT NULL,
@@ -117,11 +117,11 @@ CREATE TABLE "Owner" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Owner_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "owners_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "RegistrationRequest" (
+CREATE TABLE "registration_requests" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
@@ -129,11 +129,11 @@ CREATE TABLE "RegistrationRequest" (
     "status" TEXT NOT NULL,
     "submittedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "RegistrationRequest_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "registration_requests_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Report" (
+CREATE TABLE "reports" (
     "id" TEXT NOT NULL,
     "dogId" TEXT NOT NULL,
     "ownerId" TEXT NOT NULL,
@@ -145,11 +145,11 @@ CREATE TABLE "Report" (
     "status" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "Report_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "reports_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "users" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
@@ -163,74 +163,74 @@ CREATE TABLE "User" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "AdminSetting_adminId_key" ON "AdminSetting"("adminId");
+CREATE UNIQUE INDEX "admin_settings_adminId_key" ON "admin_settings"("adminId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Certificate_certificateCode_key" ON "Certificate"("certificateCode");
+CREATE UNIQUE INDEX "certificates_certificateCode_key" ON "certificates"("certificateCode");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Dog_pcrId_key" ON "Dog"("pcrId");
+CREATE UNIQUE INDEX "dogs_pcrId_key" ON "dogs"("pcrId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Dog_microchip_key" ON "Dog"("microchip");
+CREATE UNIQUE INDEX "dogs_microchip_key" ON "dogs"("microchip");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Owner_userId_key" ON "Owner"("userId");
+CREATE UNIQUE INDEX "owners_userId_key" ON "owners"("userId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Owner_ownerCode_key" ON "Owner"("ownerCode");
+CREATE UNIQUE INDEX "owners_ownerCode_key" ON "owners"("ownerCode");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- AddForeignKey
-ALTER TABLE "ActivityLog" ADD CONSTRAINT "ActivityLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "activity_logs" ADD CONSTRAINT "activity_logs_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "AdminSetting" ADD CONSTRAINT "AdminSetting_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "admin_settings" ADD CONSTRAINT "admin_settings_adminId_fkey" FOREIGN KEY ("adminId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "certificates" ADD CONSTRAINT "certificates_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Certificate" ADD CONSTRAINT "Certificate_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Owner"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "certificates" ADD CONSTRAINT "certificates_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "owners"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Dog" ADD CONSTRAINT "Dog_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Owner"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dogs" ADD CONSTRAINT "dogs_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "owners"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DogBreedAnalysis" ADD CONSTRAINT "DogBreedAnalysis_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dog_breed_analyses" ADD CONSTRAINT "dog_breed_analyses_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DogHealth" ADD CONSTRAINT "DogHealth_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dog_healths" ADD CONSTRAINT "dog_healths_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DogMedia" ADD CONSTRAINT "DogMedia_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dog_medias" ADD CONSTRAINT "dog_medias_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DogMedia" ADD CONSTRAINT "DogMedia_fileUrlId_fkey" FOREIGN KEY ("fileUrlId") REFERENCES "FileInstance"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "dog_medias" ADD CONSTRAINT "dog_medias_fileUrlId_fkey" FOREIGN KEY ("fileUrlId") REFERENCES "file_instances"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Owner" ADD CONSTRAINT "Owner_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "owners" ADD CONSTRAINT "owners_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Owner" ADD CONSTRAINT "Owner_coverImageId_fkey" FOREIGN KEY ("coverImageId") REFERENCES "FileInstance"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "owners" ADD CONSTRAINT "owners_coverImageId_fkey" FOREIGN KEY ("coverImageId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "RegistrationRequest" ADD CONSTRAINT "RegistrationRequest_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "registration_requests" ADD CONSTRAINT "registration_requests_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "RegistrationRequest" ADD CONSTRAINT "RegistrationRequest_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Owner"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "registration_requests" ADD CONSTRAINT "registration_requests_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "owners"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Report" ADD CONSTRAINT "Report_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "Dog"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reports" ADD CONSTRAINT "reports_dogId_fkey" FOREIGN KEY ("dogId") REFERENCES "dogs"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Report" ADD CONSTRAINT "Report_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "Owner"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "reports" ADD CONSTRAINT "reports_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "owners"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_profileImageId_fkey" FOREIGN KEY ("profileImageId") REFERENCES "FileInstance"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "users" ADD CONSTRAINT "users_profileImageId_fkey" FOREIGN KEY ("profileImageId") REFERENCES "file_instances"("id") ON DELETE SET NULL ON UPDATE CASCADE;
