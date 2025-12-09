@@ -32,7 +32,6 @@ lerna-debug.log*
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -42,8 +41,6 @@ lerna-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.env.local
-.env
 
 # temp directory
 .temp
@@ -64,8 +61,6 @@ logs
 data
 .pnpm-store
 pnpm-lock.yaml
-.env
-.env
 
 
 package-lock.json
@@ -84,7 +79,6 @@ jdadzok.pem
 
 jdadzok deploy.pem
 nginx
-.env.production
 sajib.pem
 jdadzok_server.pem
 *.pem
@@ -93,8 +87,6 @@ jdadzok_server.pem
 /generated/prisma
 *.secret
 # Deployment files
-.env.production
-.env
 *.pem
 *.key
 *.secret
@@ -104,11 +96,13 @@ logs/
 prisma/generated
 
 # Deployment files
-.env.production
-.env
 *.pem
 *.key
 *.secret
 deploy_key*
 backups/
 logs/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
