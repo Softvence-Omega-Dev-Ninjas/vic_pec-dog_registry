@@ -1,0 +1,15 @@
+model Certificate {
+    id              String    @id @default(uuid())
+    dogId           String
+    ownerId         String
+    certificateCode String    @unique
+    requestDate     DateTime
+    issueDate       DateTime?
+    status          String
+    pdfUrl          String
+
+    dog   Dog   @relation(fields: [dogId], references: [id])
+    owner Owner @relation(fields: [ownerId], references: [id])
+
+    @@map("certificates")
+}

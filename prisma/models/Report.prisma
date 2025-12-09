@@ -1,0 +1,17 @@
+model Report {
+    id            String   @id @default(uuid())
+    dogId         String
+    ownerId       String
+    reporterName  String
+    reporterEmail String
+    priority      String
+    reason        String
+    description   String
+    status        String
+    createdAt     DateTime @default(now())
+
+    dog   Dog   @relation(fields: [dogId], references: [id])
+    owner Owner @relation(fields: [ownerId], references: [id])
+
+    @@map("reports")
+}

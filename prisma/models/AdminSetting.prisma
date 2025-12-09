@@ -1,0 +1,12 @@
+model AdminSetting {
+    id                  String  @id @default(uuid())
+    adminId             String  @unique
+    emailNotify         Boolean @default(true)
+    newRegistrations    Boolean @default(true)
+    certificateRequests Boolean @default(true)
+    reportAlerts        Boolean @default(true)
+
+    admin User @relation(fields: [adminId], references: [id])
+
+    @@map("admin_settings")
+}

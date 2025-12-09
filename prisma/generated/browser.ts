@@ -13,15 +13,65 @@
  * 🟢 You can import this file directly.
  */
 
-import * as Prisma from './internal/prismaNamespaceBrowser.js'
+import * as Prisma from './internal/prismaNamespaceBrowser'
 export { Prisma }
-export * as $Enums from './enums.js'
-export * from './enums.js';
+export * as $Enums from './enums'
+export * from './enums';
 /**
- * Model Post
+ * Model ActivityLog
  * 
  */
-export type Post = Prisma.PostModel
+export type ActivityLog = Prisma.ActivityLogModel
+/**
+ * Model AdminSetting
+ * 
+ */
+export type AdminSetting = Prisma.AdminSettingModel
+/**
+ * Model Certificate
+ * 
+ */
+export type Certificate = Prisma.CertificateModel
+/**
+ * Model Dog
+ * 
+ */
+export type Dog = Prisma.DogModel
+/**
+ * Model DogBreedAnalysis
+ * 
+ */
+export type DogBreedAnalysis = Prisma.DogBreedAnalysisModel
+/**
+ * Model DogHealth
+ * 
+ */
+export type DogHealth = Prisma.DogHealthModel
+/**
+ * Model DogMedia
+ * 
+ */
+export type DogMedia = Prisma.DogMediaModel
+/**
+ * Model FileInstance
+ * 
+ */
+export type FileInstance = Prisma.FileInstanceModel
+/**
+ * Model Owner
+ * 
+ */
+export type Owner = Prisma.OwnerModel
+/**
+ * Model RegistrationRequest
+ * 
+ */
+export type RegistrationRequest = Prisma.RegistrationRequestModel
+/**
+ * Model Report
+ * 
+ */
+export type Report = Prisma.ReportModel
 /**
  * Model User
  * 

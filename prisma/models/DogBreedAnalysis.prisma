@@ -1,0 +1,11 @@
+model DogBreedAnalysis {
+    id         String   @id @default(uuid())
+    dogId      String
+    breed      String
+    percentage Float
+    createdAt  DateTime @default(now())
+
+    dog Dog @relation(fields: [dogId], references: [id])
+
+    @@map("dog_breed_analyses")
+}

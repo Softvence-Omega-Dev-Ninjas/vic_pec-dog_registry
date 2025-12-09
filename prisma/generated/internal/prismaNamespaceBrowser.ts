@@ -17,8 +17,8 @@
 
 import * as runtime from "@prisma/client/runtime/index-browser"
 
-export type * from '../models.js'
-export type * from './prismaNamespace.js'
+export type * from '../models'
+export type * from './prismaNamespace'
 
 export const Decimal = runtime.Decimal
 
@@ -49,7 +49,17 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
-  Post: 'Post',
+  ActivityLog: 'ActivityLog',
+  AdminSetting: 'AdminSetting',
+  Certificate: 'Certificate',
+  Dog: 'Dog',
+  DogBreedAnalysis: 'DogBreedAnalysis',
+  DogHealth: 'DogHealth',
+  DogMedia: 'DogMedia',
+  FileInstance: 'FileInstance',
+  Owner: 'Owner',
+  RegistrationRequest: 'RegistrationRequest',
+  Report: 'Report',
   User: 'User'
 } as const
 
@@ -69,21 +79,169 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
-export const PostScalarFieldEnum = {
+export const ActivityLogScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  content: 'content',
-  published: 'published',
-  authorId: 'authorId'
+  userId: 'userId',
+  action: 'action',
+  target: 'target',
+  details: 'details',
+  createdAt: 'createdAt'
 } as const
 
-export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
+export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
+
+
+export const AdminSettingScalarFieldEnum = {
+  id: 'id',
+  adminId: 'adminId',
+  emailNotify: 'emailNotify',
+  newRegistrations: 'newRegistrations',
+  certificateRequests: 'certificateRequests',
+  reportAlerts: 'reportAlerts'
+} as const
+
+export type AdminSettingScalarFieldEnum = (typeof AdminSettingScalarFieldEnum)[keyof typeof AdminSettingScalarFieldEnum]
+
+
+export const CertificateScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  ownerId: 'ownerId',
+  certificateCode: 'certificateCode',
+  requestDate: 'requestDate',
+  issueDate: 'issueDate',
+  status: 'status',
+  pdfUrl: 'pdfUrl'
+} as const
+
+export type CertificateScalarFieldEnum = (typeof CertificateScalarFieldEnum)[keyof typeof CertificateScalarFieldEnum]
+
+
+export const DogScalarFieldEnum = {
+  id: 'id',
+  ownerId: 'ownerId',
+  pcrId: 'pcrId',
+  name: 'name',
+  breed: 'breed',
+  color: 'color',
+  sex: 'sex',
+  microchip: 'microchip',
+  dateOfBirth: 'dateOfBirth',
+  weight: 'weight',
+  location: 'location',
+  tier: 'tier',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DogScalarFieldEnum = (typeof DogScalarFieldEnum)[keyof typeof DogScalarFieldEnum]
+
+
+export const DogBreedAnalysisScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  breed: 'breed',
+  percentage: 'percentage',
+  createdAt: 'createdAt'
+} as const
+
+export type DogBreedAnalysisScalarFieldEnum = (typeof DogBreedAnalysisScalarFieldEnum)[keyof typeof DogBreedAnalysisScalarFieldEnum]
+
+
+export const DogHealthScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  healthStatus: 'healthStatus',
+  createdAt: 'createdAt'
+} as const
+
+export type DogHealthScalarFieldEnum = (typeof DogHealthScalarFieldEnum)[keyof typeof DogHealthScalarFieldEnum]
+
+
+export const DogMediaScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  fileUrlId: 'fileUrlId',
+  createdAt: 'createdAt'
+} as const
+
+export type DogMediaScalarFieldEnum = (typeof DogMediaScalarFieldEnum)[keyof typeof DogMediaScalarFieldEnum]
+
+
+export const FileInstanceScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  originalFilename: 'originalFilename',
+  path: 'path',
+  url: 'url',
+  fileType: 'fileType',
+  mimeType: 'mimeType',
+  size: 'size',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FileInstanceScalarFieldEnum = (typeof FileInstanceScalarFieldEnum)[keyof typeof FileInstanceScalarFieldEnum]
+
+
+export const OwnerScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ownerCode: 'ownerCode',
+  about: 'about',
+  isAmbassador: 'isAmbassador',
+  emailNotify: 'emailNotify',
+  showOwnerInfo: 'showOwnerInfo',
+  coverImageId: 'coverImageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type OwnerScalarFieldEnum = (typeof OwnerScalarFieldEnum)[keyof typeof OwnerScalarFieldEnum]
+
+
+export const RegistrationRequestScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  ownerId: 'ownerId',
+  requestType: 'requestType',
+  status: 'status',
+  submittedAt: 'submittedAt'
+} as const
+
+export type RegistrationRequestScalarFieldEnum = (typeof RegistrationRequestScalarFieldEnum)[keyof typeof RegistrationRequestScalarFieldEnum]
+
+
+export const ReportScalarFieldEnum = {
+  id: 'id',
+  dogId: 'dogId',
+  ownerId: 'ownerId',
+  reporterName: 'reporterName',
+  reporterEmail: 'reporterEmail',
+  priority: 'priority',
+  reason: 'reason',
+  description: 'description',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type ReportScalarFieldEnum = (typeof ReportScalarFieldEnum)[keyof typeof ReportScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
-  name: 'name'
+  password: 'password',
+  phone: 'phone',
+  address: 'address',
+  userType: 'userType',
+  status: 'status',
+  lastLogin: 'lastLogin',
+  profileImageId: 'profileImageId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
